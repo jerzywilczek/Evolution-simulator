@@ -1,10 +1,12 @@
-import agh.cs.lab1.MapDirection;
+package agh.cs.lab1;
+
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 
 public class MapDirectionTest {
     @Test
-    public void testNext(){
+    public void testNext() {
         MapDirection n = MapDirection.NORTH;
         MapDirection e = MapDirection.EAST;
         MapDirection s = MapDirection.SOUTH;
@@ -17,7 +19,7 @@ public class MapDirectionTest {
     }
 
     @Test
-    public void testPrevious(){
+    public void testPrevious() {
         MapDirection n = MapDirection.NORTH;
         MapDirection e = MapDirection.EAST;
         MapDirection s = MapDirection.SOUTH;
