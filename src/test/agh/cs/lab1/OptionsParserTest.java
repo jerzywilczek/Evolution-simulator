@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 
 public class OptionsParserTest {
-    @Test
+    /*@Test
     public void parseTest() {
         String[] s1 = {"forward", "b", "left", "r"};
         MoveDirection[] r1 = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.RIGHT};
@@ -19,5 +19,5 @@ public class OptionsParserTest {
         assertArrayEquals(r1, OptionsParser.parse(s1));
         assertArrayEquals(r2, OptionsParser.parse(s2));
         assertArrayEquals(r3, OptionsParser.parse(s3));
-    }
+    }*/
 }

@@ -11,12 +11,12 @@ public class World {
     }
 
     public static void main(String[] args) {
-        Animal animal = new Animal();
-        MoveDirection[] moveDirections = OptionsParser.parse(args);
-        for (MoveDirection moveDirection : moveDirections) {
-            animal.move(moveDirection);
-        }
-        out.println(animal);
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        map.place(new Animal(map));
+        map.place(new Animal(map,new Vector2d(3,4)));
+        map.run(directions);
+        out.print(map.toString());
     }
 
 }

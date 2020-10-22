@@ -3,7 +3,7 @@ package agh.cs.lab1;
 import java.util.ArrayList;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] options) {
+    public MoveDirection[] parse(String[] options) {
         ArrayList<MoveDirection> result = new ArrayList<>();
         for (String option : options) {
             MoveDirection moveDirection = parse(option);
