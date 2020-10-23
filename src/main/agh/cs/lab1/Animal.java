@@ -23,7 +23,7 @@ public class Animal {
     }
 
 //    returns this to support chaining moves and other methods like:
-//    animal.move(a).move(b).getPosition();
+//    animal.move(a).move(b).getPosition(); -- czy warto? Wada: Dlaczego przesunięcie zwierzęcia, zwraca zwierzę? Mam zapamiętać nowe, a stare wyrzucić?
     public Animal move(MoveDirection direction) {
         Vector2d moveResult;
         switch (direction) {

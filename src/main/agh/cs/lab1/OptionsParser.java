@@ -12,7 +12,7 @@ public class OptionsParser {
         return result.toArray(new MoveDirection[result.size()]);
     }
 
-    private static MoveDirection parse(String option) {
+    private static MoveDirection parse(String option) { // można użyć switch
         if (option.equals("forward") || option.equals("f")) return MoveDirection.FORWARD;
         if (option.equals("backward") || option.equals("b")) return MoveDirection.BACKWARD;
         if (option.equals("right") || option.equals("r")) return MoveDirection.RIGHT;
