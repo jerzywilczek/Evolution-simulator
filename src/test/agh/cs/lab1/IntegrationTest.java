@@ -6,7 +6,7 @@ import org.junit.Test;
 import static java.lang.System.out;
 import static org.junit.Assert.*;
 
-public class IntegrationTest {
+public class IntegrationTest {  // bardzo ubogi test
     @Test
     public void animalCollisionOnPlacementTest() {
         MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "z", "f"});
@@ -14,7 +14,7 @@ public class IntegrationTest {
         map.place(new Animal(map));
         map.place(new Animal(map));
         map.run(directions);
-        assertNotNull(map.objectAt(new Vector2d(0, 2)));
+        assertNotNull(map.objectAt(new Vector2d(0, 2)));    // sprawdzenie, że coś jest na tej pozycji, to trochę mało; jeszcze sprawdźmy co
         assertNull(map.objectAt(new Vector2d(0, 1)));
         assertNull(map.objectAt(new Vector2d(0, 0)));
     }
@@ -25,7 +25,7 @@ public class IntegrationTest {
         map.place(new Animal(map));
         map.place(new Animal(map,new Vector2d(3,4)));
         map.run(directions);
-        assertNotNull(map.objectAt(new Vector2d(1, 0)));
+        assertNotNull(map.objectAt(new Vector2d(1, 0)));    // j.w.
         assertNotNull(map.objectAt(new Vector2d(2, 5)));
     }
 }

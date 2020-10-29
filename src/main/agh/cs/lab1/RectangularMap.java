@@ -13,7 +13,7 @@ public class RectangularMap implements IWorldMap {
 
     public RectangularMap(int width, int height) {
         lowerLeft = new Vector2d(0, 0);
-        upperRight = new Vector2d(width, height);
+        upperRight = new Vector2d(width, height);   // width - 1
         animals = new ArrayList<>();
     }
 
@@ -24,7 +24,7 @@ public class RectangularMap implements IWorldMap {
 
     @Override
     public boolean place(Animal animal) {
-        if (isOccupied(animal.getPosition())) return false;
+        if (isOccupied(animal.getPosition())) return false; // czy isOccupied jest właściwą metodą?
         animals.add(animal);
         return true;
     }
@@ -40,7 +40,7 @@ public class RectangularMap implements IWorldMap {
     @Override
     public boolean isOccupied(Vector2d position) {
         for (Animal animal : animals) {
-            if (animal.getPosition().equals(position)) return true;
+            if (animal.getPosition().equals(position)) return true; // można skorzystać z objectAt
         }
         return false;
     }
