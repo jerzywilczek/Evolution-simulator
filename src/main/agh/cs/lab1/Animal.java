@@ -11,18 +11,19 @@ public class Animal {
     }*/
 
     /**
-     * Places the animal at (0, 0) on a given map (if that is allowed)
+     * Initializes the animal with position (0, 0) and a given map.
+     * Doesn't actually place the animal on the map, you need to call <code>IWorldMap.place(Animal)</code> for an animal to be placed.
      * @param map
      */
     public Animal(IWorldMap map) {
         this.map = map;
         this.position = new Vector2d(0, 0);
         this.direction = MapDirection.NORTH;
-        map.place(this);
     }
 
     /**
-     * Places the animal at specified position on a given map (if that is allowed)
+     * Initializes the animal with specified position and a given map.
+     * Doesn't actually place the animal on the map, you need to call <code>IWorldMap.place(Animal)</code> for an animal to be placed.
      * @param map
      * @param initialPosition
      */
@@ -30,7 +31,6 @@ public class Animal {
         this.map = map;
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
-        map.place(this);
     }
 
     @Override
