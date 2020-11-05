@@ -16,9 +16,7 @@ public class Animal {
      * @param map
      */
     public Animal(IWorldMap map) {
-        this.map = map;
-        this.position = new Vector2d(0, 0);
-        this.direction = MapDirection.NORTH;
+        this(map, new Vector2d(0, 0));
     }
 
     /**
