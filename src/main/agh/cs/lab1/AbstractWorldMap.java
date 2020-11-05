@@ -11,18 +11,9 @@ public abstract class AbstractWorldMap implements IWorldMap{
 
     @Override
     public boolean place(Animal animal) {
-        if (!canMoveTo(animal.getPosition()))
-            throw new IllegalArgumentException("Illegal position: " + animal.getPosition());
+        if (!canMoveTo(animal.getPosition())) return false;
         animals.add(animal);
         return true;
-    }
-
-    @Override
-    public void run(MoveDirection[] directions) {
-        if (animals.size() == 0) return;
-        for (int i = 0; i < directions.length; i++) {
-            animals.get(i % animals.size()).move(directions[i]);
-        }
     }
 
     @Override

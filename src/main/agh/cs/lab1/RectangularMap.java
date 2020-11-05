@@ -3,7 +3,6 @@ package agh.cs.lab1;
 import java.util.*;
 
 public class RectangularMap extends AbstractWorldMap {
-
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
 
