@@ -51,10 +51,10 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d getLowerLeft() {
-        int minX = animals.stream()
+        int minX = animalMap.values().stream()
                 .map(animal -> animal.getPosition().x)
                 .min(Integer::compareTo).orElse(0);
-        int minY = animals.stream()
+        int minY = animalMap.values().stream()
                 .map(animal -> animal.getPosition().y)
                 .min(Integer::compareTo).orElse(0);
         return new Vector2d(min(0, minX), min(0, minY));
@@ -62,10 +62,10 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d getUpperRight() {
-        int maxX = animals.stream()
+        int maxX = animalMap.values().stream()
                 .map(animal -> animal.getPosition().x)
                 .max(Integer::compareTo).orElse(0);
-        int maxY = animals.stream()
+        int maxY = animalMap.values().stream()
                 .map(animal -> animal.getPosition().y)
                 .max(Integer::compareTo).orElse(0);
         return new Vector2d(max(maxX, grassBound), max(maxY, grassBound));

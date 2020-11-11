@@ -8,15 +8,16 @@ public class RectangularMapIntegrationTest {
 //    Therefore, tests only checks whether there is an animal on an expected position and don't verify which one it is.
     @Test
     public void animalCollisionOnPlacementTest() {
-        MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "z", "f"});
+        assertThrows(IllegalArgumentException.class, () -> new OptionsParser().parse(new String[]{"f", "z", "f"}));
+        MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "f"});
         IWorldMap map = new RectangularMap(4, 4);
         IEngine engine = new SimulationEngine(directions, map, new Vector2d[]{new Vector2d(0, 0)});
 //        Collision with an animal
-        assertFalse(map.place(new Animal(map)));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map)));
 //        Outside of boundaries
-        assertFalse(map.place(new Animal(map, new Vector2d(4, 0))));
-        assertFalse(map.place(new Animal(map, new Vector2d(4, 4))));
-        assertFalse(map.place(new Animal(map, new Vector2d(-1, 0))));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map, new Vector2d(4, 0))));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map, new Vector2d(4, 4))));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map, new Vector2d(-1, 0))));
         engine.run();
         assertTrue(map.objectAt(new Vector2d(0, 2)) instanceof Animal);
         assertNull(map.objectAt(new Vector2d(0, 1)));

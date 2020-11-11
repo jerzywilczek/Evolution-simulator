@@ -10,13 +10,11 @@ public class GrassFieldIntegrationTest {
 //    Therefore, tests only checks whether there is an animal on an expected position and don't verify which one it is.
     @Test
     public void animalCollisionOnPlacementTest() {
-        MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "z", "f"});
+        MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "f"});
         IWorldMap map = new GrassField(5);
-        IEngine engine = new SimulationEngine(directions, map, new Vector2d[]{new Vector2d(0, 0), new Vector2d(0, 0)});
-        engine.run();
-        assertTrue(map.objectAt(new Vector2d(0, 2)) instanceof Animal);
-        assertFalse(map.objectAt(new Vector2d(0, 1)) instanceof Animal);
-        assertFalse(map.objectAt(new Vector2d(0, 0)) instanceof Animal);
+        assertThrows(IllegalArgumentException.class, () ->
+                new SimulationEngine(directions, map, new Vector2d[]{new Vector2d(0, 0), new Vector2d(0, 0)})
+        );
     }
     @Test
     public void runTest(){
