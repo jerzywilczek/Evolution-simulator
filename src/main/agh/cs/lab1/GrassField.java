@@ -1,14 +1,13 @@
 package agh.cs.lab1;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.lang.Math.*;
 
 public class GrassField extends AbstractWorldMap {
-    private int grassAmount;
-    private List<Grass> grassList;
-    private int grassBound;
+    private final int grassAmount;
+    private final int grassBound;
+    private final Map<Vector2d, Grass> grassMap;
 
 //    Wedlug mnie dodawanie interfejsu IMapElement lub klasy AbstractWordlMapElement na tym etapie projektu (z obecnym kodem i bez wiedzy o tym co ma byc dodane pozniej) tylko utrudniloby implementacje.
 
@@ -28,11 +27,10 @@ public class GrassField extends AbstractWorldMap {
         }
 
 //        convert ints into Grass
-        grassList = new ArrayList<>(
-                set.stream()
-                        .map(i -> new Grass(new Vector2d(i % grassBound, i / grassBound)))
-                        .collect(Collectors.toList())
-        );
+        grassMap = new HashMap<>();
+        set.stream()
+                .map(i -> new Grass(new Vector2d(i % grassBound, i / grassBound)))
+                .forEach(grass -> grassMap.put(grass.getPosition(), grass));
     }
 
     @Override
@@ -43,9 +41,7 @@ public class GrassField extends AbstractWorldMap {
     @Override
     public Object objectAt(Vector2d position) {
         Object result = super.objectAt(position);
-        if (result == null) result = grassList.stream()
-                .filter(grass -> grass.getPosition().equals(position))
-                .findAny().orElse(null);
+        if (result == null) result = grassMap.get(position);
         return result;
     }
 
