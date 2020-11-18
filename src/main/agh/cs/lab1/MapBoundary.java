@@ -22,6 +22,9 @@ public class MapBoundary implements IPositionChangeObserver{
     void addMapElement(IMapElement mapElement){
         xSet.add(mapElement);
         ySet.add(mapElement);
+        if(mapElement instanceof Animal){
+            ((Animal) mapElement).addObserver(this);
+        }
     }
 
     @Override

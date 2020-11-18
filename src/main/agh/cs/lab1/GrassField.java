@@ -39,7 +39,6 @@ public class GrassField extends AbstractWorldMap {
     public boolean place(Animal animal) throws IllegalArgumentException {
         super.place(animal);
         mapBoundary.addMapElement(animal);
-        animal.addObserver(mapBoundary);
         return true; // specification says this method should return true if the animal was placed, even though it never returns false (throws exception instead)
     }
 
