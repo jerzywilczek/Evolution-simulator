@@ -37,8 +37,10 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean place(Animal animal) throws IllegalArgumentException {
+        super.place(animal);
         mapBoundary.addMapElement(animal);
-        return super.place(animal);
+        animal.addObserver(mapBoundary);
+        return true; // specification says this method should return true if the animal was placed, even though it never returns false
     }
 
     @Override
