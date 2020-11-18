@@ -40,7 +40,7 @@ public class GrassField extends AbstractWorldMap {
         super.place(animal);
         mapBoundary.addMapElement(animal);
         animal.addObserver(mapBoundary);
-        return true; // specification says this method should return true if the animal was placed, even though it never returns false
+        return true; // specification says this method should return true if the animal was placed, even though it never returns false (throws exception instead)
     }
 
     @Override
