@@ -30,8 +30,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        Animal animal = animalMap.remove(oldPosition);
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition, Animal animal) {
+        animalMap.remove(oldPosition);
         animalMap.put(newPosition, animal);
     }
 

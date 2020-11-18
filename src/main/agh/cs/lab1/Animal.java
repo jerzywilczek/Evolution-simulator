@@ -3,11 +3,11 @@ package agh.cs.lab1;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Animal {
+public class Animal implements IMapElement{
     private Vector2d position;
     private MapDirection direction;
-    private IWorldMap map;
-    private List<IPositionChangeObserver> observers;
+    private final IWorldMap map;
+    private final List<IPositionChangeObserver> observers;
 
     /**
      * Initializes the animal with position (0, 0) and a given map.
@@ -42,6 +42,7 @@ public class Animal {
         return direction;
     }
 
+    @Override
     public Vector2d getPosition() {
         return position;
     }
@@ -55,7 +56,7 @@ public class Animal {
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        observers.forEach(observer -> observer.positionChanged(oldPosition, newPosition));
+        observers.forEach(observer -> observer.positionChanged(oldPosition, newPosition, this));
     }
 
     //    returns this to support chaining moves and other methods like:
@@ -86,4 +87,5 @@ public class Animal {
         }
         return this;
     }
+
 }

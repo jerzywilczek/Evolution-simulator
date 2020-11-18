@@ -8,6 +8,7 @@ public class GrassField extends AbstractWorldMap {
     private final int grassAmount;
     private final int grassBound;
     private final Map<Vector2d, Grass> grassMap;
+    private final MapBoundary mapBoundary;
 
 //    Wedlug mnie dodawanie interfejsu IMapElement lub klasy AbstractWordlMapElement na tym etapie projektu (z obecnym kodem i bez wiedzy o tym co ma byc dodane pozniej) tylko utrudniloby implementacje.
 
@@ -16,6 +17,7 @@ public class GrassField extends AbstractWorldMap {
      */
     public GrassField(int grassAmount) {
         super();
+        mapBoundary = new MapBoundary();
         this.grassAmount = grassAmount;
         grassBound = (int) sqrt(grassAmount * 10);
 
@@ -30,7 +32,16 @@ public class GrassField extends AbstractWorldMap {
         grassMap = new HashMap<>();
         set.stream()
                 .map(i -> new Grass(new Vector2d(i % grassBound, i / grassBound)))
-                .forEach(grass -> grassMap.put(grass.getPosition(), grass));
+                .forEach(grass -> {
+                    grassMap.put(grass.getPosition(), grass);
+                    mapBoundary.addMapElement(grass);
+                });
+    }
+
+    @Override
+    public boolean place(Animal animal) throws IllegalArgumentException {
+        mapBoundary.addMapElement(animal);
+        return super.place(animal);
     }
 
     @Override
@@ -47,23 +58,11 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d getLowerLeft() {
-        int minX = animalMap.values().stream()
-                .map(animal -> animal.getPosition().x)
-                .min(Integer::compareTo).orElse(0);
-        int minY = animalMap.values().stream()
-                .map(animal -> animal.getPosition().y)
-                .min(Integer::compareTo).orElse(0);
-        return new Vector2d(min(0, minX), min(0, minY));
+        return mapBoundary.getLowerLeft();
     }
 
     @Override
     public Vector2d getUpperRight() {
-        int maxX = animalMap.values().stream()
-                .map(animal -> animal.getPosition().x)
-                .max(Integer::compareTo).orElse(0);
-        int maxY = animalMap.values().stream()
-                .map(animal -> animal.getPosition().y)
-                .max(Integer::compareTo).orElse(0);
-        return new Vector2d(max(maxX, grassBound), max(maxY, grassBound));
+        return mapBoundary.getUpperRight();
     }
 }
