@@ -7,20 +7,18 @@ import java.util.stream.Collectors;
 
 public class SimulationEngine implements IEngine {
 
-    private MoveDirection[] directions;
-    private List<Animal> animals;
-    private IWorldMap map;
+    private final MoveDirection[] directions;
+    private final List<Animal> animals;
+    private final IWorldMap map;
 
     public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] positions){
         this.directions = directions.clone();
         this.map = map;
-        animals = new ArrayList<>(
-                Arrays
+        animals = Arrays
                 .stream(positions)
                 .map(v -> new Animal(map, v))
                 .filter(map::place)
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 
