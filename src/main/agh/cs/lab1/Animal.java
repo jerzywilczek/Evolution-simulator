@@ -67,15 +67,17 @@ public class Animal implements IMapElement{
             case FORWARD:
                 moveResult = this.position.add(this.direction.toUnitVector());
                 if (map.canMoveTo(moveResult)) {
-                    positionChanged(this.position, moveResult);
-                    this.position = moveResult;
+                    Vector2d prevPosition = position;
+                    position = moveResult;
+                    positionChanged(prevPosition, moveResult);
                 }
                 break;
             case BACKWARD:
                 moveResult = this.position.subtract(this.direction.toUnitVector());
                 if (map.canMoveTo(moveResult)) {
-                    positionChanged(this.position, moveResult);
-                    this.position = moveResult;
+                    Vector2d prevPosition = position;
+                    position = moveResult;
+                    positionChanged(prevPosition, moveResult);
                 }
                 break;
             case RIGHT:

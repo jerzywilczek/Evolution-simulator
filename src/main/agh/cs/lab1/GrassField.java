@@ -6,11 +6,8 @@ import static java.lang.Math.*;
 
 public class GrassField extends AbstractWorldMap {
     private final int grassAmount;
-    private final int grassBound;
     private final Map<Vector2d, Grass> grassMap;
     private final MapBoundary mapBoundary;
-
-//    Wedlug mnie dodawanie interfejsu IMapElement lub klasy AbstractWordlMapElement na tym etapie projektu (z obecnym kodem i bez wiedzy o tym co ma byc dodane pozniej) tylko utrudniloby implementacje.
 
     /**
      * @param grassAmount - amount of grass on the map
@@ -19,7 +16,7 @@ public class GrassField extends AbstractWorldMap {
         super();
         mapBoundary = new MapBoundary();
         this.grassAmount = grassAmount;
-        grassBound = (int) sqrt(grassAmount * 10);
+        int grassBound = (int) sqrt(grassAmount * 10);
 
 //        gen distinct random grass positions as ints until we have the specified amount
         Set<Integer> set = new HashSet<>();
