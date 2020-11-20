@@ -55,7 +55,7 @@ public class Animal implements IMapElement{
         observers.remove(observer);
     }
 
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         observers.forEach(observer -> observer.positionChanged(oldPosition, newPosition, this));
     }
 
