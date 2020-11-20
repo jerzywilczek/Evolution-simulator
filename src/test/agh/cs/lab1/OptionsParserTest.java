@@ -8,8 +8,8 @@ import static org.junit.Assert.assertThrows;
 public class OptionsParserTest {
     @Test
     public void parseTest() {
-        String[] s1 = {"forward", "b", "left", "r"};
-        MoveDirection[] r1 = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.RIGHT};
+        String[] s1 = {"n", "s", "se", "nw"};
+        MapDirection[] r1 = {MapDirection.NORTH, MapDirection.SOUTH, MapDirection.SOUTHEAST, MapDirection.NORTHWEST};
 
         String[] s2 = {"abc", "f", "def", "backward", "123"};
 

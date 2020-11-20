@@ -3,18 +3,24 @@ package agh.cs.lab1;
 import java.util.Arrays;
 
 public class OptionsParser {
-    public MoveDirection[] parse(String[] options) {
+    public MapDirection[] parse(String[] options) {
         return Arrays
                 .stream(options)
                 .map(OptionsParser::parse)
-                .toArray(MoveDirection[]::new);
+                .toArray(MapDirection[]::new);
     }
 
-    private static MoveDirection parse(String option) throws IllegalArgumentException {
-        if (option.equals("forward") || option.equals("f")) return MoveDirection.FORWARD;
-        if (option.equals("backward") || option.equals("b")) return MoveDirection.BACKWARD;
-        if (option.equals("right") || option.equals("r")) return MoveDirection.RIGHT;
-        if (option.equals("left") || option.equals("l")) return MoveDirection.LEFT;
-        throw new IllegalArgumentException(option + " is not a valid direction");
+    private static MapDirection parse(String option) throws IllegalArgumentException {
+        return switch (option) {
+            case "n" -> MapDirection.NORTH;
+            case "ne" -> MapDirection.NORTHEAST;
+            case "e" -> MapDirection.EAST;
+            case "se" -> MapDirection.SOUTHEAST;
+            case "s" -> MapDirection.SOUTH;
+            case "sw" -> MapDirection.SOUTHWEST;
+            case "w" -> MapDirection.WEST;
+            case "nw" -> MapDirection.NORTHWEST;
+            default -> throw new IllegalArgumentException(option + " is not a valid direction");
+        };
     }
 }

@@ -1,52 +1,34 @@
 package agh.cs.lab1;
 
 public enum MapDirection {
-    NORTH("Polnoc", new Vector2d(0, 1)),
-    SOUTH("Poludnie", new Vector2d(0, -1)),
-    WEST("Zachod", new Vector2d(-1, 0)),
-    EAST("Wschod", new Vector2d(1, 0));
+    NORTH(new Vector2d(0, 1)),
+    NORTHEAST(new Vector2d(1, 1)),
+    EAST(new Vector2d(1, 0)),
+    SOUTHEAST(new Vector2d(1, -1)),
+    SOUTH(new Vector2d(0, -1)),
+    SOUTHWEST(new Vector2d(-1, -1)),
+    WEST(new Vector2d(-1, 0)),
+    NORTHWEST(new Vector2d(-1, 1));
 
-    private final String STRING;
     private final Vector2d UNIT_VECTOR;
 
-    MapDirection(String string, Vector2d unitVector) {
-        this.STRING = string;
+    MapDirection(Vector2d unitVector) {
         this.UNIT_VECTOR = unitVector;
     }
 
-    @Override
-    public String toString() {
-        return STRING;
+
+    public MapDirection rotate(int rotationAmount){
+        return MapDirection.values()[(this.ordinal() + rotationAmount + MapDirection.values().length) % MapDirection.values().length];
     }
 
+    @Deprecated
     public MapDirection next() {
-        switch (this) {
-            case NORTH:
-                return EAST;
-            case EAST:
-                return SOUTH;
-            case SOUTH:
-                return WEST;
-            case WEST:
-                return NORTH;
-            default:
-                throw new IllegalStateException("Unexpected value: " + this);
-        }
+        return this.rotate(2);
     }
 
+    @Deprecated
     public MapDirection previous() {
-        switch (this) {
-            case NORTH:
-                return WEST;
-            case EAST:
-                return NORTH;
-            case SOUTH:
-                return EAST;
-            case WEST:
-                return SOUTH;
-            default:
-                throw new IllegalStateException("Unexpected value: " + this);
-        }
+        return this.rotate(-2);
     }
 
     public Vector2d toUnitVector() {

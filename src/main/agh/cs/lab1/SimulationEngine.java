@@ -7,11 +7,11 @@ import java.util.stream.Collectors;
 
 public class SimulationEngine implements IEngine {
 
-    private final MoveDirection[] directions;
+    private final MapDirection[] directions;
     private final List<Animal> animals;
     private final IWorldMap map;
 
-    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] positions){
+    public SimulationEngine(MapDirection[] directions, IWorldMap map, Vector2d[] positions){
         this.directions = directions.clone();
         this.map = map;
         animals = Arrays

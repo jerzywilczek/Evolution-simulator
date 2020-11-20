@@ -1,11 +1,12 @@
 package agh.cs.lab1;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Animal implements IMapElement{
     private Vector2d position;
-    private MapDirection direction;
     private final IWorldMap map;
     private final List<IPositionChangeObserver> observers;
 
@@ -24,22 +25,12 @@ public class Animal implements IMapElement{
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.position = initialPosition;
-        this.direction = MapDirection.NORTH;
         this.observers = new LinkedList<>();
     }
 
     @Override
     public String toString() {
-        if (direction == MapDirection.NORTH) return "^";
-        if (direction == MapDirection.WEST) return ">";
-        if (direction == MapDirection.SOUTH) return "v";
-        if (direction == MapDirection.EAST) return "<";
-//        this should never happen
-        throw new IllegalStateException("Animal has a bad direction: " + direction);
-    }
-
-    public MapDirection getDirection() {
-        return direction;
+        return "A";
     }
 
     @Override
@@ -61,31 +52,12 @@ public class Animal implements IMapElement{
 
     //    returns this to support chaining moves and other methods like:
     //    animal.move(a).move(b).getPosition();
-    public Animal move(MoveDirection direction) {
-        Vector2d moveResult;
-        switch (direction) {
-            case FORWARD:
-                moveResult = this.position.add(this.direction.toUnitVector());
-                if (map.canMoveTo(moveResult)) {
-                    Vector2d prevPosition = position;
-                    position = moveResult;
-                    positionChanged(prevPosition, moveResult);
-                }
-                break;
-            case BACKWARD:
-                moveResult = this.position.subtract(this.direction.toUnitVector());
-                if (map.canMoveTo(moveResult)) {
-                    Vector2d prevPosition = position;
-                    position = moveResult;
-                    positionChanged(prevPosition, moveResult);
-                }
-                break;
-            case RIGHT:
-                this.direction = this.direction.next();
-                break;
-            case LEFT:
-                this.direction = this.direction.previous();
-                break;
+    public Animal move(@NotNull MapDirection direction) {
+        Vector2d moveResult = this.position.add(direction.toUnitVector());
+        if(map.canMoveTo(moveResult)){
+            Vector2d oldPosition = position;
+            position = moveResult;
+            positionChanged(oldPosition, position);
         }
         return this;
     }

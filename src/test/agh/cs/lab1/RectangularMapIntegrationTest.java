@@ -9,7 +9,7 @@ public class RectangularMapIntegrationTest {
     @Test
     public void animalCollisionOnPlacementTest() {
         assertThrows(IllegalArgumentException.class, () -> new OptionsParser().parse(new String[]{"f", "z", "f"}));
-        MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "f"});
+        MapDirection[] directions = new OptionsParser().parse(new String[]{"n", "n"});
         IWorldMap map = new RectangularMap(4, 4);
         IEngine engine = new SimulationEngine(directions, map, new Vector2d[]{new Vector2d(0, 0)});
 //        Collision with an animal
@@ -25,7 +25,7 @@ public class RectangularMapIntegrationTest {
     }
     @Test
     public void runTest(){
-        MoveDirection[] directions = new OptionsParser().parse(new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"});
+        MapDirection[] directions = new OptionsParser().parse(new String[]{"n", "s", "e", "w", "s", "n", "s", "n", "s", "n", "s", "n"});
         IWorldMap map = new RectangularMap(10, 5);
         IEngine engine = new SimulationEngine(directions, map, new Vector2d[]{new Vector2d(0, 0), new Vector2d(3, 4)});
         engine.run();
@@ -37,13 +37,13 @@ public class RectangularMapIntegrationTest {
         IWorldMap map = new RectangularMap(4, 4);
         Animal animal1 = new Animal(map);
         map.place(animal1);
-        animal1.move(MoveDirection.FORWARD);
+        animal1.move(MapDirection.NORTH);
         assertSame(animal1, map.objectAt(new Vector2d(0, 1)));
-        animal1.move(MoveDirection.LEFT).move(MoveDirection.FORWARD).move(MoveDirection.BACKWARD);
+        animal1.move(MapDirection.WEST).move(MapDirection.EAST);
         assertSame(animal1, map.objectAt(new Vector2d(1, 1)));
         Animal animal2 = new Animal(map);
         map.place(animal2);
-        animal1.move(MoveDirection.LEFT).move(MoveDirection.FORWARD).move(MoveDirection.RIGHT).move(MoveDirection.FORWARD);
-        assertSame(animal1, map.objectAt(new Vector2d(1, 0)));
+        animal1.move(MapDirection.SOUTHWEST);
+        assertSame(animal1, map.objectAt(new Vector2d(1, 1)));
     }
 }
