@@ -17,18 +17,15 @@ public enum MapDirection {
     }
 
 
-    public MapDirection rotate(int rotationAmount){
-        return MapDirection.values()[(this.ordinal() + rotationAmount + MapDirection.values().length) % MapDirection.values().length];
-    }
-
-    @Deprecated
-    public MapDirection next() {
-        return this.rotate(2);
-    }
-
-    @Deprecated
-    public MapDirection previous() {
-        return this.rotate(-2);
+    /**
+     * Returns MapDirection rotated by 45deg * rotationAmount clockwise
+     *
+     * @param rotationAmount amount of 45 degree turns to be applied to the MapDirection. Passing negative values results in a counter-clockwise turn instead.
+     * @return this rotated by 45deg * rotationAmount
+     */
+    public MapDirection rotate(int rotationAmount) {
+        int n = MapDirection.values().length;
+        return MapDirection.values()[(((this.ordinal() + rotationAmount) % n) + n) % n];
     }
 
     public Vector2d toUnitVector() {

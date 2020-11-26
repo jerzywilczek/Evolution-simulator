@@ -1,12 +1,11 @@
 package agh.cs.lab1;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class Animal implements IMapElement{
     private Vector2d position;
+    private MapDirection previousMove;
     private final IWorldMap map;
     private final List<IPositionChangeObserver> observers;
 
@@ -23,6 +22,7 @@ public class Animal implements IMapElement{
      * Doesn't actually place the animal on the map, you need to call <code>IWorldMap.place(Animal)</code> for an animal to be placed.
      */
     public Animal(IWorldMap map, Vector2d initialPosition) {
+        this.previousMove = MapDirection.NORTH;
         this.map = map;
         this.position = initialPosition;
         this.observers = new LinkedList<>();
@@ -50,13 +50,23 @@ public class Animal implements IMapElement{
         observers.forEach(observer -> observer.positionChanged(oldPosition, newPosition, this));
     }
 
+    /**
+     * Moves this Animal in previous move direction rotated by rotation
+     * @param rotation how many times previous move direction should be rotated by 45 degrees clockwise
+     * @return this
+     */
+    private Animal moveWithRotation(int rotation){
+        return move(previousMove.rotate(rotation));
+    }
+
     //    returns this to support chaining moves and other methods like:
     //    animal.move(a).move(b).getPosition();
-    public Animal move(@NotNull MapDirection direction) {
+    public Animal move(MapDirection direction) {
         Vector2d moveResult = this.position.add(direction.toUnitVector());
         if(map.canMoveTo(moveResult)){
             Vector2d oldPosition = position;
             position = moveResult;
+            previousMove = direction;
             positionChanged(oldPosition, position);
         }
         return this;
