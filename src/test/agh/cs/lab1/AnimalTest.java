@@ -1,5 +1,9 @@
 package agh.cs.lab1;
 
+import agh.cs.lab1.model.Animal;
+import agh.cs.lab1.model.MapDirection;
+import agh.cs.lab1.model.RectangularMap;
+import agh.cs.lab1.model.Vector2d;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

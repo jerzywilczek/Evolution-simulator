@@ -1,5 +1,6 @@
 package agh.cs.lab1;
 
+import agh.cs.lab1.model.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

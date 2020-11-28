@@ -1,4 +1,4 @@
-package agh.cs.lab1;
+package agh.cs.lab1.model;
 
 import static java.lang.System.out;
 

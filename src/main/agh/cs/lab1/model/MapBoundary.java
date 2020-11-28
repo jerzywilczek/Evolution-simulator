@@ -1,4 +1,4 @@
-package agh.cs.lab1;
+package agh.cs.lab1.model;
 
 import java.util.SortedSet;
 import java.util.TreeSet;

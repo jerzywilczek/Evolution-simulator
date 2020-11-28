@@ -1,4 +1,4 @@
-package agh.cs.lab1;
+package agh.cs.lab1.model;
 
 /**
  * The interface responsible for interacting with the map of the world.
