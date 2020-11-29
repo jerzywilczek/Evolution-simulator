@@ -1,7 +1,5 @@
-package agh.cs.lab1;
+package agh.cs.lab1.model;
 
-import agh.cs.lab1.model.MapDirection;
-import agh.cs.lab1.model.OptionsParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
