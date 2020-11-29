@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimulationEngine implements IEngine {
+public class SimulationEngine {
 
     private final MapDirection[] directions;
     private final List<Animal> animals;
@@ -22,7 +22,6 @@ public class SimulationEngine implements IEngine {
     }
 
 
-    @Override
     public void run() {
         if (animals.size() == 0) return;
         for (int i = 0; i < directions.length; i++) {
