@@ -80,8 +80,7 @@ public class Genome {
             return true;
         if (!(obj instanceof Genome))
             return false;
-        Genome g = (Genome) obj;
-        return Arrays.equals(genes, g.genes);
+        return Arrays.equals(genes, ((Genome) obj).genes);
     }
 
     @Override
