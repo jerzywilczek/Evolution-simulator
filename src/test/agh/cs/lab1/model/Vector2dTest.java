@@ -13,12 +13,12 @@ public class Vector2dTest {
         Vector2d v4 = new Vector2d(1, 1);
         Vector2d v5 = new Vector2d(0, 0);
 
-        assertTrue(v1.equals(v1));
-        assertFalse(v1.equals(v2));
-        assertFalse(v1.equals(v3));
-        assertFalse(v1.equals(v4));
-        assertTrue(v1.equals(v5));
-        assertFalse(v1.equals(0));
+        assertEquals(v1, v1);
+        assertNotEquals(v1, v2);
+        assertNotEquals(v1, v3);
+        assertNotEquals(v1, v4);
+        assertEquals(v1, v5);
+        assertNotEquals(0, v1);
     }
 
     @Test

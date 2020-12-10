@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Genome {
+
     private final int[] genes;
 
     /**

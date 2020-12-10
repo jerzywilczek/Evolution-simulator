@@ -1,5 +1,7 @@
 package agh.cs.lab1.model;
 
+import java.util.Random;
+
 public enum MapDirection {
     NORTH(new Vector2d(0, 1)),
     NORTHEAST(new Vector2d(1, 1)),
@@ -30,5 +32,9 @@ public enum MapDirection {
 
     public Vector2d toUnitVector() {
         return UNIT_VECTOR;
+    }
+
+    public static MapDirection randomDirection(){
+        return MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
     }
 }

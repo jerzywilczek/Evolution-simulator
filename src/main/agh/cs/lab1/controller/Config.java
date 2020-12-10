@@ -1,7 +1,7 @@
 package agh.cs.lab1.controller;
 
 public class Config {
-    public final int width, height, startEnergy, moveEnergy, plantEnergy;
+    public final int width, height, startEnergy, moveEnergy, plantEnergy, startAnimalAmount;
     public final double jungleRatio;
     public Config(){
         width = 200;
@@ -10,5 +10,6 @@ public class Config {
         moveEnergy = 1;
         plantEnergy = 5;
         jungleRatio = 0.1;
+        startAnimalAmount = 10;
     }
 }
