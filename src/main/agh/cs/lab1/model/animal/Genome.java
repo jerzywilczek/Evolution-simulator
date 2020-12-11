@@ -1,4 +1,4 @@
-package agh.cs.lab1.model;
+package agh.cs.lab1.model.animal;
 
 import java.util.Arrays;
 import java.util.Map;

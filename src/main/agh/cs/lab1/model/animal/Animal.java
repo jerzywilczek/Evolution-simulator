@@ -1,10 +1,14 @@
-package agh.cs.lab1.model;
+package agh.cs.lab1.model.animal;
+
+import agh.cs.lab1.model.map.MapDirection;
+import agh.cs.lab1.model.map.Vector2d;
+import agh.cs.lab1.model.map.WorldMap;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Animal implements IMapElement {
+public class Animal {
     private Vector2d position;
     private MapDirection previousMove;
     private int energy;
@@ -70,7 +74,6 @@ public class Animal implements IMapElement {
         return "A";
     }
 
-    @Override
     public Vector2d getPosition() {
         return position;
     }

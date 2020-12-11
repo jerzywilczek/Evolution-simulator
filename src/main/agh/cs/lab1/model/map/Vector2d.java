@@ -1,4 +1,4 @@
-package agh.cs.lab1.model;
+package agh.cs.lab1.model.map;
 
 import java.util.Objects;
 

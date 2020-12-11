@@ -1,5 +1,8 @@
-package agh.cs.lab1.model;
+package agh.cs.lab1.model.map;
 
+import agh.cs.lab1.model.animal.Animal;
+import agh.cs.lab1.model.animal.IEnergyChangeObserver;
+import agh.cs.lab1.model.animal.IPositionChangeObserver;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -134,6 +137,7 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
         return animals.values().parallelStream()
                 .filter(set -> set.size() >= 2)
                 .map(set -> {
+//                    case 1: there are at least two animals with the highest energy
                     List<Animal> list = set.stream()
                             .dropWhile(animalSortingEntry -> animalSortingEntry.energy < set.last().energy)
                             .map(animalSortingEntry -> animalSortingEntry.animal)
@@ -142,9 +146,18 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
                         Collections.shuffle(list);
                         return list.subList(0, 2).toArray(new Animal[2]);
                     }
+//                    case 2: there is one animal with the highest energy
                     Iterator<AnimalSortingEntry> it = set.descendingIterator();
                     Animal a1 = it.next().animal;
-                    Animal a2 = it.next().animal;
+                    List<AnimalSortingEntry> tempList = new LinkedList<>();
+                    tempList.add(it.next());
+                    while(it.hasNext()){
+                        AnimalSortingEntry entry = it.next();
+                        if(entry.animal.getEnergy() < tempList.get(0).animal.getEnergy()) break;
+                        tempList.add(entry);
+                    }
+                    Collections.shuffle(tempList);
+                    Animal a2 = tempList.get(0).animal;
                     return new Animal[]{a1, a2};
                 });
     }
