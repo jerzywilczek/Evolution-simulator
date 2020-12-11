@@ -1,5 +1,6 @@
-package agh.cs.lab1.model;
+package agh.cs.lab1.model.map;
 
+import agh.cs.lab1.model.map.Vector2d;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,5 +1,8 @@
-package agh.cs.lab1.model;
+package agh.cs.lab1.model.map;
 
+import agh.cs.lab1.model.animal.Animal;
+import agh.cs.lab1.model.map.Vector2d;
+import agh.cs.lab1.model.map.WorldMap;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,14 +40,25 @@ public class WorldMapTest {
 
     @Test
     public void testGetAllAnimals() {
-        int[] expected = animals.stream().mapToInt(Animal::hashCode).sorted().toArray();
-        int[] actual = map.getAllAnimals().mapToInt(Animal::hashCode).sorted().toArray();
+        int[] expected = animals.stream()
+                .mapToInt(Animal::hashCode)
+                .sorted()
+                .toArray();
+        int[] actual = map.getAllAnimals()
+                .mapToInt(Animal::hashCode)
+                .sorted()
+                .toArray();
         assertArrayEquals(expected, actual);
     }
 
     @Test
     public void testGetStrongestAnimalsGroupedByFields() {
-        Map<Vector2d, List<Animal>> result = map.getStrongestAnimalsGroupedByFields().collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+        Map<Vector2d, List<Animal>> result = map
+                .getStrongestAnimalsGroupedByFields()
+                .collect(Collectors.toMap(
+                        AbstractMap.SimpleEntry::getKey,
+                        AbstractMap.SimpleEntry::getValue
+                ));
         assertEquals(3, result.get(new Vector2d(0, 0)).size());
         assertEquals(1, result.get(new Vector2d(1, 1)).size());
         assertEquals(1, result.get(new Vector2d(1, 2)).size());
@@ -54,7 +68,7 @@ public class WorldMapTest {
     @Test
     public void testGetBreedingCandidates() {
         List<Animal[]> result = map.getBreedingCandidates().collect(Collectors.toList());
-        result.stream().mapToInt(a -> a.length).forEach(n -> assertEquals(2, n));
+        result.stream().mapToInt(a -> a.length).forEach(len -> assertEquals(2, len));
         assertEquals(3, result.size());
     }
 
@@ -81,5 +95,6 @@ public class WorldMapTest {
                 .filter(animal -> animal.getEnergy() <= 0)
                 .collect(Collectors.toList())
                 .forEach(map::removeAnimal);
+        assertEquals(7, map.getAllAnimals().count());
     }
 }
