@@ -1,12 +1,13 @@
 package agh.cs.lab1.model.map;
 
 import agh.cs.lab1.model.animal.Animal;
-import agh.cs.lab1.model.map.Vector2d;
-import agh.cs.lab1.model.map.WorldMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

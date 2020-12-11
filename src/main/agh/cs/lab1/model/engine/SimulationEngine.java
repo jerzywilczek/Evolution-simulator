@@ -1,7 +1,6 @@
 package agh.cs.lab1.model.engine;
 
 
-import agh.cs.lab1.model.engine.Config;
 import agh.cs.lab1.model.animal.Animal;
 import agh.cs.lab1.model.map.Vector2d;
 import agh.cs.lab1.model.map.WorldMap;
