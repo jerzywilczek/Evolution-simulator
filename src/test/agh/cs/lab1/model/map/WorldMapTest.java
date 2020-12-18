@@ -46,6 +46,7 @@ public class WorldMapTest {
                 .sorted()
                 .toArray();
         int[] actual = map.getAllAnimals()
+                .stream()
                 .mapToInt(Animal::hashCode)
                 .sorted()
                 .toArray();
@@ -56,6 +57,7 @@ public class WorldMapTest {
     public void testGetStrongestAnimalsGroupedByFields() {
         Map<Vector2d, List<Animal>> result = map
                 .getStrongestAnimalsGroupedByFields()
+                .stream()
                 .collect(Collectors.toMap(
                         AbstractMap.SimpleEntry::getKey,
                         AbstractMap.SimpleEntry::getValue
@@ -68,7 +70,7 @@ public class WorldMapTest {
 
     @Test
     public void testGetBreedingCandidates() {
-        List<Animal[]> result = map.getBreedingCandidates().collect(Collectors.toList());
+        List<Animal[]> result = map.getBreedingCandidates();
         result.stream().mapToInt(a -> a.length).forEach(len -> assertEquals(2, len));
         assertEquals(3, result.size());
     }
@@ -93,9 +95,16 @@ public class WorldMapTest {
     @Test
     public void testRemovingDead(){
         map.getAllAnimals()
+                .stream()
                 .filter(animal -> animal.getEnergy() <= 0)
                 .collect(Collectors.toList())
                 .forEach(map::removeAnimal);
-        assertEquals(7, map.getAllAnimals().count());
+        assertEquals(7, map.getAllAnimals().size());
+    }
+
+    @Test
+    public void testAnimalMoving(){
+        map.getAllAnimals().forEach(animal -> animal.move(0));
+        assertEquals(animals.size(), map.getAllAnimals().size());
     }
 }

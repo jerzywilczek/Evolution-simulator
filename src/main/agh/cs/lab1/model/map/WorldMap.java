@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver {
     private final int width;
@@ -17,8 +16,16 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
     private final Vector2d jungleUpperRight;
     private final Map<Vector2d, NavigableSet<AnimalSortingEntry>> animals;
     private final Map<Vector2d, Boolean> plants;
-    private int junglePlants;
-    private int nonJunglePlants;
+    private final List<Vector2d> jungleFields;
+    private final List<Vector2d> nonJungleFields;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
     private static class AnimalSortingEntry implements Comparable<AnimalSortingEntry> {
         public final int energy;
@@ -41,7 +48,6 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
         this.height = height;
         jungleLowerLeft = new Vector2d((int) (width * (1 - jungleRatio) / 2), (int) (height * (1 - jungleRatio) / 2));
         jungleUpperRight = new Vector2d((int) (width * (1 + jungleRatio) / 2), (int) (height * (1 + jungleRatio) / 2));
-        junglePlants = nonJunglePlants = 0;
 
         animals = new HashMap<>();
         IntStream.range(0, width)
@@ -54,6 +60,29 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
                 .forEach(x -> IntStream.range(0, height)
                         .forEach(y -> plants.put(new Vector2d(x, y), false))
                 );
+
+
+        jungleFields = IntStream
+                .range(jungleLowerLeft.x, jungleUpperRight.x)
+                .boxed()
+                .flatMap(x ->
+                        IntStream
+                                .range(jungleLowerLeft.y, jungleUpperRight.y)
+                                .mapToObj(y -> new Vector2d(x, y))
+                )
+                .collect(Collectors.toList());
+
+        nonJungleFields = IntStream
+                .range(0, width)
+                .boxed()
+                .flatMap(x ->
+                        IntStream
+                                .range(0, width)
+                                .mapToObj(y -> new Vector2d(x, y))
+                )
+                .filter(v -> !(v.follows(jungleLowerLeft) && v.precedes(jungleUpperRight)))
+                .collect(Collectors.toList());
+
     }
 
     public Map<Vector2d, NavigableSet<AnimalSortingEntry>> getAnimals() {
@@ -95,32 +124,35 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
      * @param amount amount of items in the stream
      * @return stream of vectors pointing to free places on the map
      */
-    public Stream<Vector2d> getFreePlaces(int amount) {
+    public List<Vector2d> getFreePlaces(int amount) {
         List<Vector2d> list = animals.keySet()
                 .parallelStream()
                 .filter(key -> animals.get(key).isEmpty())
                 .collect(Collectors.toList());
         Collections.shuffle(list);
-        return list.subList(0, amount).stream();
+        return list.subList(0, amount);
     }
 
     /**
      * Gets all animals currently on the map
+     *
      * @return parallel stream containing all animals on the map
      */
-    public Stream<Animal> getAllAnimals() {
+    public List<Animal> getAllAnimals() {
         return animals
                 .values()
                 .parallelStream()
                 .flatMap(SortedSet<AnimalSortingEntry>::stream)
-                .map(animalSortingEntry -> animalSortingEntry.animal);
+                .map(animalSortingEntry -> animalSortingEntry.animal)
+                .collect(Collectors.toList());
     }
 
     /**
      * Returns animals with highest energy grouped by fields
-     * @return a parallel stream of entries, where <code>Entry.getKey()</code> contains a vector representing a certain field and <code>entry.getValue()</code> contains a list of animals
+     *
+     * @return a parallel stream of entries, where <code>Entry.getKey()</code> contains a vector representing a certain field and <code>entry.getValue()</code> contains a non-empty list of animals
      */
-    public Stream<AbstractMap.SimpleEntry<Vector2d, List<Animal>>> getStrongestAnimalsGroupedByFields() {
+    public List<AbstractMap.SimpleEntry<Vector2d, List<Animal>>> getStrongestAnimalsGroupedByFields() {
         return animals.entrySet().parallelStream()
                 .filter(entry -> !entry.getValue().isEmpty())
                 .map(entry -> new AbstractMap.SimpleEntry<>(
@@ -130,10 +162,10 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
                                         .map(animalSortingEntry -> animalSortingEntry.animal)
                                         .collect(Collectors.toList())
                         )
-                );
+                ).collect(Collectors.toList());
     }
 
-    public Stream<Animal[]> getBreedingCandidates() {
+    public List<Animal[]> getBreedingCandidates() {
         return animals.values().parallelStream()
                 .filter(set -> set.size() >= 2)
                 .map(set -> {
@@ -151,15 +183,15 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
                     Animal a1 = it.next().animal;
                     List<AnimalSortingEntry> tempList = new LinkedList<>();
                     tempList.add(it.next());
-                    while(it.hasNext()){
+                    while (it.hasNext()) {
                         AnimalSortingEntry entry = it.next();
-                        if(entry.animal.getEnergy() < tempList.get(0).animal.getEnergy()) break;
+                        if (entry.animal.getEnergy() < tempList.get(0).animal.getEnergy()) break;
                         tempList.add(entry);
                     }
                     Collections.shuffle(tempList);
                     Animal a2 = tempList.get(0).animal;
                     return new Animal[]{a1, a2};
-                });
+                }).collect(Collectors.toList());
     }
 
     public Vector2d babySpawnPoint(Vector2d parentsPosition) {
@@ -186,38 +218,21 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
 
     public void plantEaten(Vector2d position) {
         plants.put(position, false);
-        if (position.follows(jungleLowerLeft) && position.precedes(jungleUpperRight)) junglePlants++;
-        else nonJunglePlants++;
     }
 
     public void growPlants() {
         Random random = new Random();
-        int x, y;
-        int jungleArea = (jungleUpperRight.x - jungleLowerLeft.x) * (jungleUpperRight.y - jungleLowerLeft.y);
-        if (nonJunglePlants < width * height - jungleArea) {
-            do {
-                x = random.nextInt(width);
-                if (x < jungleLowerLeft.x && x > jungleUpperRight.x) {
-                    y = random.nextInt(height);
-                } else {
-                    if (random.nextBoolean()) {
-                        y = random.nextInt(jungleLowerLeft.y);
-                    } else {
-                        y = random.nextInt(jungleLowerLeft.y) + jungleUpperRight.y;
-                    }
-                }
-            } while (plants.get(new Vector2d(x, y)));
-            plants.put(new Vector2d(x, y), true);
-            nonJunglePlants++;
+
+        List<Vector2d> jungleFiltered = jungleFields.parallelStream().filter(field -> !plants.get(field)).collect(Collectors.toList());
+        if(jungleFiltered.size() > 0){
+            plants.put(jungleFiltered.get(random.nextInt(jungleFiltered.size())), true);
         }
-        if (junglePlants < jungleArea) {
-            do {
-                x = random.nextInt(jungleUpperRight.x - jungleLowerLeft.x) + jungleLowerLeft.x;
-                y = random.nextInt();
-            } while (plants.get(new Vector2d(x, y)));
-            plants.put(new Vector2d(x, y), true);
-            junglePlants++;
+
+        List<Vector2d> nonJungleFiltered = nonJungleFields.parallelStream().filter(field -> !plants.get(field)).collect(Collectors.toList());
+        if(nonJungleFiltered.size() > 0){
+            plants.put(nonJungleFiltered.get(random.nextInt(nonJungleFiltered.size())), true);
         }
+
     }
 
     public void removeAnimal(Animal animal) {
