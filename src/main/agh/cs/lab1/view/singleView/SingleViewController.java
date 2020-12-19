@@ -1,13 +1,12 @@
-package agh.cs.lab1.view.mainView;
+package agh.cs.lab1.view.singleView;
 
-import agh.cs.lab1.view.MainView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 
 
-public class MainViewController {
+public class SingleViewController {
     @FXML
     private Canvas canvas;
 
@@ -19,18 +18,17 @@ public class MainViewController {
 
     @FXML
     private void startButtonPressed(ActionEvent event){
-        MainView.getInstance().getAnimationTimer().start();
+        SingleView.getInstance().unpauseSimulation();
         startButton.setDisable(true);
         stopButton.setDisable(false);
     }
 
     @FXML
     private void stopButtonPressed(ActionEvent event){
-        MainView.getInstance().getAnimationTimer().stop();
+        SingleView.getInstance().pauseSimulation();
         stopButton.setDisable(true);
         startButton.setDisable(false);
     }
-
 
     public Canvas getCanvas() {
         return canvas;
