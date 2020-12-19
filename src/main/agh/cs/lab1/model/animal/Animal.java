@@ -94,7 +94,7 @@ public class Animal {
         energyChangeObservers.remove(observer);
     }
 
-    public void energyChanged(int oldEnergy, int newEnergy){
+    private void energyChanged(int oldEnergy, int newEnergy){
         energyChangeObservers.forEach(observer -> observer.energyChanged(oldEnergy, newEnergy, this));
     }
 
