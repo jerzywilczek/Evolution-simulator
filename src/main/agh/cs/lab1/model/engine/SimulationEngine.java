@@ -4,6 +4,7 @@ package agh.cs.lab1.model.engine;
 import agh.cs.lab1.model.animal.Animal;
 import agh.cs.lab1.model.map.Vector2d;
 import agh.cs.lab1.model.map.WorldMap;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class SimulationEngine {
     private final WorldMap map;
 
 
-    public SimulationEngine() throws IOException{
+    public SimulationEngine() throws IOException, JsonSyntaxException, NumberFormatException {
         config = Config.loadFromJSON("parameters.json");
         map = new WorldMap(config.width, config.height, config.jungleRatio);
         map.getFreePlaces(config.startAnimalAmount).forEach(position -> map.place(new Animal(position, config.startEnergy, map)));

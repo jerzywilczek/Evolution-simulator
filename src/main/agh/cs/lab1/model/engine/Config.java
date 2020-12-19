@@ -32,7 +32,7 @@ public class Config {
      * @return config with values loaded from the JSON file
      * @throws IOException when <code>java.nio.file.Files.readString()</code> throws the exception or when values loaded from the file are wrong
      */
-    public static Config loadFromJSON(String filename) throws IOException, JsonSyntaxException {
+    public static Config loadFromJSON(String filename) throws IOException, JsonSyntaxException, NumberFormatException {
         Path file = Paths.get("./" + filename);
         Config config = new Gson().fromJson(Files.readString(file), Config.class);
         if (
