@@ -2,6 +2,8 @@ package agh.cs.lab1.view;
 
 import agh.cs.lab1.model.engine.SimulationEngine;
 import agh.cs.lab1.view.errorView.ErrorViewController;
+import agh.cs.lab1.view.mainView.MainViewController;
+import agh.cs.lab1.view.mainView.MapDrawer;
 import com.google.gson.JsonSyntaxException;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -37,7 +39,7 @@ public class MainView extends Application {
             showErrorWindow(exception);
         }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainView/MainView.fxml"));
         Parent root = loader.load();
         MainViewController mainViewController =  loader.getController();
 

@@ -1,4 +1,4 @@
-package agh.cs.lab1.view;
+package agh.cs.lab1.view.mainView;
 
 import agh.cs.lab1.model.map.WorldMap;
 import javafx.scene.canvas.Canvas;
