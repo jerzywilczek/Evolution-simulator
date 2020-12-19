@@ -122,7 +122,7 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
 
     /**
      * @param amount amount of items in the stream
-     * @return stream of vectors pointing to free places on the map
+     * @return list of vectors pointing to free places on the map
      */
     public List<Vector2d> getFreePlaces(int amount) {
         List<Vector2d> list = animals.keySet()
@@ -136,7 +136,7 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
     /**
      * Gets all animals currently on the map
      *
-     * @return parallel stream containing all animals on the map
+     * @return list containing all animals on the map
      */
     public List<Animal> getAllAnimals() {
         return animals
@@ -150,7 +150,7 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
     /**
      * Returns animals with highest energy grouped by fields
      *
-     * @return a parallel stream of entries, where <code>Entry.getKey()</code> contains a vector representing a certain field and <code>entry.getValue()</code> contains a non-empty list of animals
+     * @return a list of entries, where <code>Entry.getKey()</code> contains a vector representing a certain field and <code>entry.getValue()</code> contains a non-empty list of animals
      */
     public List<AbstractMap.SimpleEntry<Vector2d, List<Animal>>> getStrongestAnimalsGroupedByFields() {
         return animals.entrySet().parallelStream()
@@ -209,11 +209,9 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
                 .collect(Collectors.toList());
 
         if (filteredFields.size() > 0) {
-            Collections.shuffle(filteredFields);
-            return filteredFields.get(0);
+            return filteredFields.get(new Random().nextInt(filteredFields.size()));
         }
-        Collections.shuffle(possibleFields);
-        return possibleFields.get(0);
+        return possibleFields.get(new Random().nextInt(possibleFields.size()));
     }
 
     public void plantEaten(Vector2d position) {
