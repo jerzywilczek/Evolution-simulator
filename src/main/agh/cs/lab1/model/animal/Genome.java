@@ -75,6 +75,10 @@ public class Genome {
         return genes[new Random().nextInt(32)];
     }
 
+    public static int compare(Genome a, Genome b){
+        return Arrays.compare(a.genes, b.genes);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -87,5 +91,10 @@ public class Genome {
     @Override
     public int hashCode() {
         return Arrays.hashCode(genes);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.toString(genes);
     }
 }

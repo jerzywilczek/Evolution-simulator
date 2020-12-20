@@ -1,6 +1,7 @@
 package agh.cs.lab1.model.map;
 
 import agh.cs.lab1.model.animal.Animal;
+import agh.cs.lab1.model.animal.Genome;
 import agh.cs.lab1.model.animal.IEnergyChangeObserver;
 import agh.cs.lab1.model.animal.IPositionChangeObserver;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,11 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
     private final Map<Vector2d, Boolean> plants;
     private final List<Vector2d> jungleFields;
     private final List<Vector2d> nonJungleFields;
+
+    private int animalAmount = 0;
+    private int plantAmount = 0;
+    private long deadAnimalAmount = 0;
+    private long sumDeadAnimalsAge = 0;
 
     public int getWidth() {
         return width;
@@ -89,6 +95,11 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
         return Collections.unmodifiableMap(animals);
     }
 
+    public Optional<Animal> getStrongestAnimalOnField(Vector2d field){
+        if(animals.get(field).isEmpty()) return Optional.empty();
+        return Optional.of(animals.get(field).last().animal);
+    }
+
     /**
      * Returns a vector that fits on the map (in case the argument doesn't fit on the map it gets wrapped to the other side)
      *
@@ -106,6 +117,7 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
         animals.get(animal.getPosition()).add(new AnimalSortingEntry(animal.getEnergy(), animal));
         animal.addEnergyChangeObserver(this);
         animal.addPositionChangeObserver(this);
+        animalAmount++;
     }
 
     @Override
@@ -216,25 +228,71 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
 
     public void plantEaten(Vector2d position) {
         plants.put(position, false);
+        plantAmount--;
     }
 
     public void growPlants() {
         Random random = new Random();
-
+//        TODO plants can't grow on animal occupied fields
         List<Vector2d> jungleFiltered = jungleFields.parallelStream().filter(field -> !plants.get(field)).collect(Collectors.toList());
-        if(jungleFiltered.size() > 0){
-            plants.put(jungleFiltered.get(random.nextInt(jungleFiltered.size())), true);
+        if (jungleFiltered.size() > 0) {
+            Vector2d field = jungleFiltered.get(random.nextInt(jungleFiltered.size()));
+            plants.put(field, true);
+            plantAmount++;
         }
 
         List<Vector2d> nonJungleFiltered = nonJungleFields.parallelStream().filter(field -> !plants.get(field)).collect(Collectors.toList());
-        if(nonJungleFiltered.size() > 0){
-            plants.put(nonJungleFiltered.get(random.nextInt(nonJungleFiltered.size())), true);
+        if (nonJungleFiltered.size() > 0) {
+            Vector2d field = nonJungleFiltered.get(random.nextInt(nonJungleFiltered.size()));
+            plants.put(field, true);
+            plantAmount++;
         }
 
     }
 
     public void removeAnimal(Animal animal) {
         animals.get(animal.getPosition()).remove(new AnimalSortingEntry(animal.getEnergy(), animal));
+        animalAmount--;
+        deadAnimalAmount++;
+        sumDeadAnimalsAge += animal.getAge();
+    }
+
+    public int getAnimalAmount() {
+        return animalAmount;
+    }
+
+    public int getPlantAmount() {
+        return plantAmount;
+    }
+
+    public double getAverageLifeExpectancy() {
+        if (deadAnimalAmount == 0) return 0;
+        return (double) (sumDeadAnimalsAge) / (double) (deadAnimalAmount);
+    }
+
+    public double getAverageChildrenAmount() {
+        if (animalAmount == 0) return 0;
+        return  (double) getAllAnimals().parallelStream().mapToLong(Animal::getChildrenAmount).sum() / (double) (animalAmount);
+    }
+
+    public double getAverageEnergy() {
+        if (animalAmount == 0) return 0;
+        return  (double) getAllAnimals().stream().mapToLong(Animal::getEnergy).sum() / (double) (animalAmount);
+    }
+
+    public boolean animalOnField(Vector2d field){
+        return !animals.get(field).isEmpty();
+    }
+
+    public boolean plantOnField(Vector2d field){
+        return plants.get(field);
+    }
+
+    public List<Animal> getAnimalsByGenome(Genome genome){
+        return getAllAnimals()
+                .parallelStream()
+                .filter(animal -> animal.getGenome().equals(genome))
+                .collect(Collectors.toList());
     }
 
     public Map<Vector2d, Boolean> getPlants() {

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.cs.lab1.view.singleView.SingleViewController">
    <children>
@@ -10,7 +12,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox layoutX="25.0" layoutY="111.0" prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="25.0" layoutY="111.0" prefHeight="398.0" prefWidth="174.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="35.0" prefWidth="174.0">
                            <children>
@@ -18,12 +20,27 @@
                               <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonPressed" text="Stop" />
                            </children>
                         </HBox>
-                     </children></VBox>
+                        <Text fx:id="animalAmount" strokeType="OUTSIDE" strokeWidth="0.0" text="Animal amount" />
+                        <Text fx:id="plantAmount" strokeType="OUTSIDE" strokeWidth="0.0" text="Plant amount" />
+                        <Text fx:id="averageChildren" strokeType="OUTSIDE" strokeWidth="0.0" text="Average children" />
+                        <Text fx:id="averageEnergy" strokeType="OUTSIDE" strokeWidth="0.0" text="Average energy" />
+                        <Text fx:id="averageLifeExpectancy" strokeType="OUTSIDE" strokeWidth="0.0" text="Average LE" />
+                        <Text fx:id="bestGenome" strokeType="OUTSIDE" strokeWidth="0.0" text="Best genome" />
+                        <Text fx:id="tps" strokeType="OUTSIDE" strokeWidth="0.0" text="TPS" />
+                        <Text fx:id="trackedChildren" strokeType="OUTSIDE" strokeWidth="0.0" text="Tracked children" />
+                        <Text fx:id="trackedDescendants" strokeType="OUTSIDE" strokeWidth="0.0" text="Tracked desc" />
+                        <Text fx:id="trackedDeath" strokeType="OUTSIDE" strokeWidth="0.0" text="Tracked death" />
+                        <Text fx:id="trackedGenome" strokeType="OUTSIDE" strokeWidth="0.0" text="Tracked genome" />
+                        <Button fx:id="highlightButton" disable="true" mnemonicParsing="false" onAction="#highlightButtonPressed" text="Mark animals with best genome" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding></VBox>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Canvas fx:id="canvas" height="720.0" width="720.0" />
+                  <Canvas fx:id="canvas" height="720.0" onMouseClicked="#canvasClicked" width="720.0" />
                </children>
             </AnchorPane>
         </items>

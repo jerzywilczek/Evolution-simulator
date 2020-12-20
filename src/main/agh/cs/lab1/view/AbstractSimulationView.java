@@ -1,6 +1,7 @@
 package agh.cs.lab1.view;
 
 import agh.cs.lab1.view.errorView.ErrorViewController;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,12 +14,18 @@ public abstract class AbstractSimulationView {
     private final Stage defaultStage;
 
     public AbstractSimulationView(Stage defaultStage){
+        if (instance != null){
+            throw new IllegalStateException("There can only exist one simulation view");
+        }
         this.defaultStage = defaultStage;
         instance = this;
     }
 
 
-    public abstract void runSimulation();
+    public void runSimulation(){
+        defaultStage.show();
+        getAnimationTimer().start();
+    }
 
     protected Stage getDefaultStage() {
         return defaultStage;
@@ -43,7 +50,13 @@ public abstract class AbstractSimulationView {
         return instance;
     }
 
-    public abstract void pauseSimulation();
+    public void pauseSimulation(){
+        getAnimationTimer().stop();
+    }
 
-    public abstract void unpauseSimulation();
+    public void unpauseSimulation(){
+        getAnimationTimer().start();
+    }
+
+    public abstract AnimationTimer getAnimationTimer();
 }
