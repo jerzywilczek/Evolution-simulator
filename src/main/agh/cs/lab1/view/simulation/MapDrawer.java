@@ -1,4 +1,4 @@
-package agh.cs.lab1.view;
+package agh.cs.lab1.view.simulation;
 
 import agh.cs.lab1.model.animal.Animal;
 import agh.cs.lab1.model.animal.Genome;

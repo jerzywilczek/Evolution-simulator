@@ -1,16 +1,19 @@
 package agh.cs.lab1.view.singleView;
 
+import agh.cs.lab1.model.engine.IStatisticsListener;
 import agh.cs.lab1.model.engine.StatisticsTracker;
+import agh.cs.lab1.view.simulation.SimulationInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 
-public class SingleViewController {
+public class SingleViewController implements IStatisticsListener {
+
+    private SimulationInstance simulationInstance;
 
     private final String animalAmountFormat = "Animal amount: \n%d";
     private final String plantAmountFormat = "Plant amount: \n%d";
@@ -90,21 +93,23 @@ public class SingleViewController {
 
     @FXML
     private void highlightButtonPressed(ActionEvent event){
-        ((SingleView) SingleView.getInstance()).highlightBestGenome();
+        simulationInstance.highlightBestGenome();
     }
 
-    @FXML
     private void canvasClicked(MouseEvent event){
-        if(event.getButton() == MouseButton.PRIMARY){
-            ((SingleView) SingleView.getInstance()).canvasClicked(event.getX(), event.getY());
-        }
+        simulationInstance.canvasClicked(event);
     }
 
     public Canvas getCanvas() {
         return canvas;
     }
 
+    public void setSimulationInstance(SimulationInstance simulationInstance) {
+        this.simulationInstance = simulationInstance;
+    }
+
     public void updateStatistics(StatisticsTracker tracker){
+
         animalAmount.setText(String.format(animalAmountFormat, tracker.getAnimalAmount()));
         plantAmount.setText(String.format(plantAmountFormat, tracker.getPlantAmount()));
         averageEnergy.setText(String.format(averageEnergyFormat, tracker.getAverageEnergyForLivingAnimals()));

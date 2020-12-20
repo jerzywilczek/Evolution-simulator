@@ -1,4 +1,4 @@
-package agh.cs.lab1.view;
+package agh.cs.lab1.view.simulation;
 
 import agh.cs.lab1.view.errorView.ErrorViewController;
 import javafx.animation.AnimationTimer;

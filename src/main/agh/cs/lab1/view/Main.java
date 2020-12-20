@@ -1,6 +1,7 @@
 package agh.cs.lab1.view;
 
 
+import agh.cs.lab1.view.simulation.AbstractSimulationView;
 import agh.cs.lab1.view.singleView.SingleView;
 import javafx.application.Application;
 import javafx.stage.Stage;

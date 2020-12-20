@@ -9,6 +9,8 @@ import java.util.*;
 
 public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObserver, IEnergyChangeObserver, IChildBornObserver {
     private final WorldMap map;
+    private final List<IStatisticsListener> listeners = new LinkedList<>();
+
     private int animalAmount = 0;
     private int plantAmount = 0;
     private long deadAnimalAmount = 0;
@@ -16,9 +18,8 @@ public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObs
     private long aliveAnimalEnergySum = 0;
     private long aliveAnimalChildrenAmountSum = 0;
 
-    private Map<Genome, Integer> genomeAmount = new HashMap<>();
-    private SortedSet<GenomeAmountEntry> genomeAmountEntries = new TreeSet<>();
-    private Genome bestGenome;
+    private final Map<Genome, Integer> genomeAmount = new HashMap<>();
+    private final SortedSet<GenomeAmountEntry> genomeAmountEntries = new TreeSet<>();
 
     private long amountOfDescendantsForTrackedAnimal = -1;
     private int amountOfChildrenForTrackedAnimal = -1;
@@ -67,9 +68,18 @@ public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObs
         }
     }
 
-    public StatisticsTracker(WorldMap map, SimulationEngine engine) {
+    public void addStatisticsListener(IStatisticsListener listener){
+        listeners.add(listener);
+    }
+
+    public void removeStatisticsListeners(IStatisticsListener listener){
+        listeners.remove(listener);
+    }
+
+    public StatisticsTracker(WorldMap map, SimulationEngine engine, IStatisticsListener... listeners) {
         this.map = map;
         engine.addAnimalSpawnedObserver(this);
+        this.listeners.addAll(Arrays.asList(listeners));
         updateStatistics();
     }
 
@@ -169,5 +179,6 @@ public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObs
             amountOfDescendantsForTrackedAnimal = trackedAnimal.getDescendantAmount();
             deathTurnForTrackedAnimal = trackedAnimal.getDeathTurn();
         }
+        listeners.forEach(listener -> listener.updateStatistics(this));
     }
 }
