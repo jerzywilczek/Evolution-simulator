@@ -1,7 +1,7 @@
 package agh.cs.lab1.view.simulation;
 
 import agh.cs.lab1.model.animal.Animal;
-import agh.cs.lab1.model.engine.IStatisticsListener;
+import agh.cs.lab1.model.statistics.IStatisticsListener;
 import agh.cs.lab1.model.engine.SimulationEngine;
 import agh.cs.lab1.model.map.Vector2d;
 import com.google.gson.JsonSyntaxException;

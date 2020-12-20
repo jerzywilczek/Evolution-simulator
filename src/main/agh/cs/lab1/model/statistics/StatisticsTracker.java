@@ -1,6 +1,8 @@
-package agh.cs.lab1.model.engine;
+package agh.cs.lab1.model.statistics;
 
 import agh.cs.lab1.model.animal.*;
+import agh.cs.lab1.model.engine.IAnimalSpawnedObserver;
+import agh.cs.lab1.model.engine.SimulationEngine;
 import agh.cs.lab1.model.map.WorldMap;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,10 +28,18 @@ public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObs
     private long deathTurnForTrackedAnimal = -1;
     private Animal trackedAnimal;
 
-//    TODO dominating genomes
+    public StatisticsTracker(WorldMap map, SimulationEngine engine, IStatisticsListener... listeners) {
+        this.map = map;
+        engine.addAnimalSpawnedObserver(this);
+        this.listeners.addAll(Arrays.asList(listeners));
+        updateStatistics();
+    }
+
+
 
     private static class GenomeAmountEntry implements Comparable<GenomeAmountEntry> {
         public final Genome genome;
+
         public final int amount;
 
         public GenomeAmountEntry(Genome genome, int amount) {
@@ -74,13 +84,6 @@ public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObs
 
     public void removeStatisticsListeners(IStatisticsListener listener){
         listeners.remove(listener);
-    }
-
-    public StatisticsTracker(WorldMap map, SimulationEngine engine, IStatisticsListener... listeners) {
-        this.map = map;
-        engine.addAnimalSpawnedObserver(this);
-        this.listeners.addAll(Arrays.asList(listeners));
-        updateStatistics();
     }
 
 
@@ -179,6 +182,6 @@ public class StatisticsTracker implements IAnimalSpawnedObserver, IAnimalDiedObs
             amountOfDescendantsForTrackedAnimal = trackedAnimal.getDescendantAmount();
             deathTurnForTrackedAnimal = trackedAnimal.getDeathTurn();
         }
-        listeners.forEach(listener -> listener.updateStatistics(this));
+        listeners.forEach(listener -> listener.updateStatistics(new StatisticsPackage(this)));
     }
 }

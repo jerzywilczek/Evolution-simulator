@@ -4,8 +4,8 @@ package agh.cs.lab1.model.engine;
 import agh.cs.lab1.model.animal.Animal;
 import agh.cs.lab1.model.map.Vector2d;
 import agh.cs.lab1.model.map.WorldMap;
+import agh.cs.lab1.model.statistics.StatisticsTracker;
 import com.google.gson.JsonSyntaxException;
-import javafx.scene.canvas.Canvas;
 
 import java.io.IOException;
 import java.util.LinkedList;

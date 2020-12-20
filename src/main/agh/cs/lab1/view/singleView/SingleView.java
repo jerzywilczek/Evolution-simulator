@@ -16,7 +16,6 @@ public class SingleView extends AbstractSimulationView {
     private final SingleViewController singleViewController;
     private SimulationInstance simulationInstance;
 
-
     public SingleView(Stage defaultStage) throws IOException {
         super(defaultStage);
 
@@ -38,7 +37,6 @@ public class SingleView extends AbstractSimulationView {
         animationTimer = new AnimationTimer() {
             private long previousSecond = 0;
             private int tps = 0;
-
             @Override
             public void handle(long time) {
 
@@ -49,7 +47,6 @@ public class SingleView extends AbstractSimulationView {
                 } else {
                     tps++;
                 }
-
                 simulationInstance.runTurn();
             }
         };

@@ -1,7 +1,8 @@
 package agh.cs.lab1.view.singleView;
 
-import agh.cs.lab1.model.engine.IStatisticsListener;
-import agh.cs.lab1.model.engine.StatisticsTracker;
+import agh.cs.lab1.model.statistics.IStatisticsListener;
+import agh.cs.lab1.model.statistics.StatisticsPackage;
+import agh.cs.lab1.model.statistics.StatisticsTracker;
 import agh.cs.lab1.view.simulation.SimulationInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,21 +15,8 @@ import javafx.scene.text.Text;
 public class SingleViewController implements IStatisticsListener {
 
     private SimulationInstance simulationInstance;
-
-    private final String animalAmountFormat = "Animal amount: \n%d";
-    private final String plantAmountFormat = "Plant amount: \n%d";
-    private final String averageEnergyFormat = "Average energy for living: \n%.2f";
-    private final String averageChildrenFormat = "Average children amount for living: \n%.2f";
-    private final String averageLifeExpectancyFormat = "Average life expectancy for dead: \n%.2f";
-    private final String bestGenomeFormat = "Most popular genome: \n%s";
-    private final String noBestGenome = "There is no most popular genome\n";
     private final String tpsFormat = "Turns per second: \n%.2f";
-    private final String trackedChildrenFormat = "Tracked animal's children amount: \n%d";
-    private final String trackedDescendantsFormat = "Tracked animal's descendants amount: \n%d";
-    private final String trackedDeathFormat = "Tracked animal's turn of death: \n%d";
-    private final String trackedDeathAlive = "Tracked animal's turn of death: \nAnimal is still alive";
-    private final String trackedGenomeFormat = "Tracked animal's genome: \n%s";
-    private final String noTrackedAnimal = "No tracked animal\n";
+
 
     @FXML
     private Canvas canvas;
@@ -96,6 +84,7 @@ public class SingleViewController implements IStatisticsListener {
         simulationInstance.highlightBestGenome();
     }
 
+    @FXML
     private void canvasClicked(MouseEvent event){
         simulationInstance.canvasClicked(event);
     }
@@ -108,35 +97,17 @@ public class SingleViewController implements IStatisticsListener {
         this.simulationInstance = simulationInstance;
     }
 
-    public void updateStatistics(StatisticsTracker tracker){
-
-        animalAmount.setText(String.format(animalAmountFormat, tracker.getAnimalAmount()));
-        plantAmount.setText(String.format(plantAmountFormat, tracker.getPlantAmount()));
-        averageEnergy.setText(String.format(averageEnergyFormat, tracker.getAverageEnergyForLivingAnimals()));
-        averageChildren.setText(String.format(averageChildrenFormat, tracker.getAverageChildrenAmount()));
-        averageLifeExpectancy.setText(String.format(averageLifeExpectancyFormat, tracker.getAverageLifeExpectancy()));
-
-        if(tracker.getBestGenome() == null)
-            bestGenome.setText(noBestGenome);
-        else
-            bestGenome.setText(String.format(bestGenomeFormat, tracker.getBestGenome().toString()));
-
-        if(tracker.trackingAnimal()){
-            trackedChildren.setText(String.format(trackedChildrenFormat, tracker.getAmountOfChildrenForTrackedAnimal()));
-            trackedDescendants.setText(String.format(trackedDescendantsFormat, tracker.getAmountOfDescendantsForTrackedAnimal()));
-
-            if(tracker.getDeathTurnForTrackedAnimal() == -1)
-                trackedDeath.setText(trackedDeathAlive);
-            else
-                trackedDeath.setText(String.format(trackedDeathFormat, tracker.getDeathTurnForTrackedAnimal()));
-
-            trackedGenome.setText(String.format(trackedGenomeFormat, tracker.getTrackedGenome().toString()));
-        }else{
-            trackedChildren.setText(noTrackedAnimal);
-            trackedDescendants.setText(noTrackedAnimal);
-            trackedDeath.setText(noTrackedAnimal);
-            trackedGenome.setText(noTrackedAnimal);
-        }
+    public void updateStatistics(StatisticsPackage statisticsPackage){
+        animalAmount.setText(statisticsPackage.formattedAnimalAmount);
+        plantAmount.setText(statisticsPackage.formattedPlantAmount);
+        averageEnergy.setText(statisticsPackage.formattedAverageEnergy);
+        averageChildren.setText(statisticsPackage.formattedAverageChildren);
+        averageLifeExpectancy.setText(statisticsPackage.formattedAverageLifeExpectancy);
+        bestGenome.setText(statisticsPackage.formattedBestGenome);
+        trackedChildren.setText(statisticsPackage.formattedTrackedChildren);
+        trackedDescendants.setText(statisticsPackage.formattedTrackedDescendants);
+        trackedDeath.setText(statisticsPackage.formattedTrackedDeath);
+        trackedGenome.setText(statisticsPackage.formattedTrackedGenome);
     }
 
     public void updateTPS(double tps){
