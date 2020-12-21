@@ -1,15 +1,22 @@
 package agh.cs.lab1.view.simulation;
 
 import agh.cs.lab1.model.animal.Animal;
+import agh.cs.lab1.model.engine.Config;
 import agh.cs.lab1.model.statistics.IStatisticsListener;
 import agh.cs.lab1.model.engine.SimulationEngine;
 import agh.cs.lab1.model.map.Vector2d;
+import agh.cs.lab1.model.statistics.StatisticsPackage;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -44,5 +51,24 @@ public class SimulationInstance {
 
     public void highlightBestGenome(){
         drawer.highlightGenome(engine.getStatisticsTracker().getBestGenome());
+    }
+
+    public void writeStats(String filename) throws IOException{
+        StatisticsPackage statisticsPackage = new StatisticsPackage(engine.getStatisticsTracker());
+        String[] statistics = {
+                statisticsPackage.formattedAnimalAmount,
+                statisticsPackage.formattedPlantAmount,
+                statisticsPackage.formattedAverageChildren,
+                statisticsPackage.formattedAverageEnergy,
+                statisticsPackage.formattedAverageLifeExpectancy,
+                statisticsPackage.formattedBestGenome,
+                statisticsPackage.formattedTrackedChildren,
+                statisticsPackage.formattedTrackedDescendants,
+                statisticsPackage.formattedTrackedDeath,
+                statisticsPackage.formattedTrackedGenome
+        };
+
+        Path file = Paths.get("./" + filename + ".txt");
+        Files.writeString(file, new GsonBuilder().setPrettyPrinting().create().toJson(statistics), StandardOpenOption.CREATE_NEW, StandardOpenOption.APPEND);
     }
 }

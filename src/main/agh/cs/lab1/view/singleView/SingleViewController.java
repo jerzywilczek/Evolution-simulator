@@ -2,8 +2,6 @@ package agh.cs.lab1.view.singleView;
 
 import agh.cs.lab1.model.statistics.IStatisticsListener;
 import agh.cs.lab1.model.statistics.StatisticsPackage;
-import agh.cs.lab1.model.statistics.StatisticsTracker;
-import agh.cs.lab1.view.simulation.SimulationInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -14,7 +12,6 @@ import javafx.scene.text.Text;
 
 public class SingleViewController implements IStatisticsListener {
 
-    private SimulationInstance simulationInstance;
     private SingleView singleView;
 
     public void setSingleView(SingleView singleView) {
@@ -65,6 +62,9 @@ public class SingleViewController implements IStatisticsListener {
 
     @FXML
     private Button highlightButton;
+
+    @FXML
+    private Button statsButton;
     
     @FXML
     private void startButtonPressed(ActionEvent event){
@@ -72,6 +72,7 @@ public class SingleViewController implements IStatisticsListener {
         startButton.setDisable(true);
         stopButton.setDisable(false);
         highlightButton.setDisable(true);
+        statsButton.setDisable(true);
     }
 
     @FXML
@@ -80,25 +81,28 @@ public class SingleViewController implements IStatisticsListener {
         stopButton.setDisable(true);
         startButton.setDisable(false);
         highlightButton.setDisable(false);
+        statsButton.setDisable(false);
     }
 
     @FXML
     private void highlightButtonPressed(ActionEvent event){
-        simulationInstance.highlightBestGenome();
+        singleView.getSimulationInstance().highlightBestGenome();
+    }
+
+    @FXML
+    private void statsButtonPressed(ActionEvent event){
+        singleView.writeStatistics();
     }
 
     @FXML
     private void canvasClicked(MouseEvent event){
-        simulationInstance.canvasClicked(event);
+        singleView.getSimulationInstance().canvasClicked(event);
     }
 
     public Canvas getCanvas() {
         return canvas;
     }
 
-    public void setSimulationInstance(SimulationInstance simulationInstance) {
-        this.simulationInstance = simulationInstance;
-    }
 
     public void updateStatistics(StatisticsPackage statisticsPackage){
         animalAmount.setText(statisticsPackage.formattedAnimalAmount);

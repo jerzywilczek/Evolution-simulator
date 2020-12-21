@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class SingleView extends AbstractSimulationView {
     private final AnimationTimer animationTimer;
@@ -28,7 +29,6 @@ public class SingleView extends AbstractSimulationView {
         } catch (IOException | JsonSyntaxException | NumberFormatException exception) {
             showErrorWindowAndQuit(exception);
         }
-        singleViewController.setSimulationInstance(simulationInstance);
         singleViewController.setSingleView(this);
 
         getDefaultStage().setTitle("Simulation");
@@ -38,6 +38,7 @@ public class SingleView extends AbstractSimulationView {
         animationTimer = new AnimationTimer() {
             private long previousSecond = 0;
             private int tps = 0;
+
             @Override
             public void handle(long time) {
 
@@ -53,6 +54,17 @@ public class SingleView extends AbstractSimulationView {
         };
     }
 
+    public SimulationInstance getSimulationInstance() {
+        return simulationInstance;
+    }
+
+    public void writeStatistics() {
+        try {
+            simulationInstance.writeStats("statistics-" + LocalDateTime.now().toString());
+        } catch (IOException exception) {
+            showErrorWindow(exception);
+        }
+    }
 
     @Override
     public AnimationTimer getAnimationTimer() {

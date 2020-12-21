@@ -32,6 +32,7 @@
                         <Text fx:id="trackedDeath" strokeType="OUTSIDE" strokeWidth="0.0" text="Tracked death" />
                         <Text fx:id="trackedGenome" strokeType="OUTSIDE" strokeWidth="0.0" text="Tracked genome" />
                         <Button fx:id="highlightButton" disable="true" mnemonicParsing="false" onAction="#highlightButtonPressed" text="Mark animals with best genome" />
+                        <Button fx:id="statsButton" disable="true" mnemonicParsing="false" onAction="#statsButtonPressed" text="Write out statistics" />
                      </children>
                      <padding>
                         <Insets left="10.0" />

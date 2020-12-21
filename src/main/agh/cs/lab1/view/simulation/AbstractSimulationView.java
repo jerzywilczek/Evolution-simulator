@@ -26,9 +26,20 @@ public abstract class AbstractSimulationView {
         return defaultStage;
     }
 
-    protected void showErrorWindowAndQuit(Exception exception) throws IOException {
+    protected void showErrorWindowAndQuit(Exception exception) {
+        showErrorWindow(exception);
+        System.exit(1);
+    }
+
+    public void showErrorWindow(Exception exception) {
         FXMLLoader loader = new FXMLLoader(ErrorViewController.class.getResource("ErrorView.fxml"));
-        Parent root = loader.load();
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e){
+            e.printStackTrace();
+            System.exit(1);
+        }
         loader.<ErrorViewController>getController().getText().setText("Error:\n" + exception.getMessage());
 
         exception.printStackTrace();
@@ -37,8 +48,6 @@ public abstract class AbstractSimulationView {
         stage.setTitle("Error!");
         stage.setScene(new Scene(root, 600, 200));
         stage.showAndWait();
-
-        System.exit(1);
     }
 
     public void pauseSimulation(){
