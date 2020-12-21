@@ -1,7 +1,6 @@
 package agh.cs.lab1.view;
 
 
-import agh.cs.lab1.view.errorView.ErrorViewController;
 import agh.cs.lab1.view.questionView.QuestionViewController;
 import agh.cs.lab1.view.simulation.AbstractSimulationView;
 import agh.cs.lab1.view.singleView.SingleView;
