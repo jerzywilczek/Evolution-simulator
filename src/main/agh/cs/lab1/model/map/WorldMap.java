@@ -236,9 +236,9 @@ public class WorldMap implements IEnergyChangeObserver, IPositionChangeObserver 
 
     private void growPlantOnFields(List<Vector2d> fields) {
         Random random = new Random();
-        List<Vector2d> jungleFiltered = fields.parallelStream().filter(field -> !plants.get(field) && animals.get(field).isEmpty()).collect(Collectors.toList());
-        if (jungleFiltered.size() > 0) {
-            Vector2d field = jungleFiltered.get(random.nextInt(jungleFiltered.size()));
+        List<Vector2d> filtered = fields.parallelStream().filter(field -> !plants.get(field) && animals.get(field).isEmpty()).collect(Collectors.toList());
+        if (filtered.size() > 0) {
+            Vector2d field = filtered.get(random.nextInt(filtered.size()));
             plants.put(field, true);
             plantAmount++;
         }

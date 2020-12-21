@@ -118,7 +118,7 @@ public class SingleViewController implements IStatisticsListener {
     }
 
     public void updateTPS(double tps){
-        String tpsFormat = "Turns per second: \n%.2f";
+        String tpsFormat = "Turns per second: %.2f";
         this.tps.setText(String.format(tpsFormat, tps));
     }
 }
