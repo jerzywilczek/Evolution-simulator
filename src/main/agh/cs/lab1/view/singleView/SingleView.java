@@ -29,6 +29,7 @@ public class SingleView extends AbstractSimulationView {
             showErrorWindowAndQuit(exception);
         }
         singleViewController.setSimulationInstance(simulationInstance);
+        singleViewController.setSingleView(this);
 
         getDefaultStage().setTitle("Simulation");
         getDefaultStage().setScene(new Scene(root, 1280, 720));

@@ -15,8 +15,11 @@ import javafx.scene.text.Text;
 public class SingleViewController implements IStatisticsListener {
 
     private SimulationInstance simulationInstance;
-    private final String tpsFormat = "Turns per second: \n%.2f";
+    private SingleView singleView;
 
+    public void setSingleView(SingleView singleView) {
+        this.singleView = singleView;
+    }
 
     @FXML
     private Canvas canvas;
@@ -65,7 +68,7 @@ public class SingleViewController implements IStatisticsListener {
     
     @FXML
     private void startButtonPressed(ActionEvent event){
-        SingleView.getInstance().unpauseSimulation();
+        singleView.unpauseSimulation();
         startButton.setDisable(true);
         stopButton.setDisable(false);
         highlightButton.setDisable(true);
@@ -73,7 +76,7 @@ public class SingleViewController implements IStatisticsListener {
 
     @FXML
     private void stopButtonPressed(ActionEvent event){
-        SingleView.getInstance().pauseSimulation();
+        singleView.pauseSimulation();
         stopButton.setDisable(true);
         startButton.setDisable(false);
         highlightButton.setDisable(false);
@@ -111,6 +114,7 @@ public class SingleViewController implements IStatisticsListener {
     }
 
     public void updateTPS(double tps){
+        String tpsFormat = "Turns per second: \n%.2f";
         this.tps.setText(String.format(tpsFormat, tps));
     }
 }

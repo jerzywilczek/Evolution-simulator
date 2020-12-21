@@ -21,6 +21,8 @@ public class StatisticsPackage {
     public final String formattedAverageChildren;
     public final String formattedAverageLifeExpectancy;
     public final String formattedAverageEnergy;
+    public final String compactedBestGenome;
+    public final String compactedTrackedGenome;
 
     public StatisticsPackage(StatisticsTracker tracker) {
         this.animalAmount = tracker.getAnimalAmount();
@@ -35,34 +37,37 @@ public class StatisticsPackage {
         this.averageLifeExpectancy = tracker.getAverageLifeExpectancy();
         this.averageEnergy = tracker.getAverageEnergyForLivingAnimals();
 
-        String animalAmountFormat = "Animal amount: \n%d";
+        String animalAmountFormat = "Animal amount: %d";
         formattedAnimalAmount = String.format(animalAmountFormat, animalAmount);
-        String plantAmountFormat = "Plant amount: \n%d";
+        String plantAmountFormat = "Plant amount: %d";
         formattedPlantAmount = String.format(plantAmountFormat, plantAmount);
         String bestGenomeFormat = "Most popular genome: \n%s";
         formattedBestGenome = String.format(bestGenomeFormat, Objects.requireNonNullElse(bestGenome, ""));
-        String averageChildrenFormat = "Average children amount for living: \n%.2f";
+        compactedBestGenome = String.format(bestGenomeFormat, Objects.requireNonNullElse(bestGenome.compactedToString(), ""));
+        String averageChildrenFormat = "Average children amount for living: %.2f";
         formattedAverageChildren = String.format(averageChildrenFormat, averageChildren);
-        String averageLifeExpectancyFormat = "Average life expectancy for dead: \n%.2f";
+        String averageLifeExpectancyFormat = "Average life expectancy for dead: %.2f";
         formattedAverageLifeExpectancy = String.format(averageLifeExpectancyFormat, averageLifeExpectancy);
-        String averageEnergyFormat = "Average energy for living: \n%.2f";
+        String averageEnergyFormat = "Average energy for living: %.2f";
         formattedAverageEnergy = String.format(averageEnergyFormat, averageEnergy);
         if(trackingAnimal){
             String trackedGenomeFormat = "Tracked animal's genome: \n%s";
             formattedTrackedGenome = String.format(trackedGenomeFormat, trackedGenome);
-            String trackedChildrenFormat = "Tracked animal's children amount: \n%d";
+            compactedTrackedGenome = String.format(formattedTrackedGenome, trackedGenome.compactedToString());
+            String trackedChildrenFormat = "Tracked animal's children amount: %d";
             formattedTrackedChildren = String.format(trackedChildrenFormat, trackedChildren);
-            String trackedDescendantsFormat = "Tracked animal's descendants amount: \n%d";
+            String trackedDescendantsFormat = "Tracked animal's descendants amount: %d";
             formattedTrackedDescendants = String.format(trackedDescendantsFormat, trackedDescendants);
-            String trackedDeathFormat = "Tracked animal's turn of death: \n%d";
-            String trackedDeathAlive = "Tracked animal's turn of death: \nAnimal is still alive";
+            String trackedDeathFormat = "Tracked animal's turn of death: %d";
+            String trackedDeathAlive = "Tracked animal's turn of death: Animal is still alive";
             formattedTrackedDeath = trackedDeath == -1 ? trackedDeathAlive : String.format(trackedDeathFormat, trackedDeath);
         }else{
-            String noTrackedAnimal = "No tracked animal\n";
+            String noTrackedAnimal = "No tracked animal";
             formattedTrackedGenome = noTrackedAnimal;
             formattedTrackedChildren = noTrackedAnimal;
             formattedTrackedDescendants = noTrackedAnimal;
             formattedTrackedDeath = noTrackedAnimal;
+            compactedTrackedGenome = noTrackedAnimal;
         }
 
     }

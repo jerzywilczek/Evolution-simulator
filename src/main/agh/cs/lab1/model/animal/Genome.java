@@ -97,4 +97,12 @@ public class Genome {
     public String toString() {
         return Arrays.toString(genes);
     }
+
+    public String compactedToString(){
+        Map<Integer, Long> collected = Arrays.stream(genes).boxed().collect(Collectors.groupingBy(gene -> gene, Collectors.counting()));
+        StringBuilder stringBuilder = new StringBuilder("[ ");
+        IntStream.range(0, 8).boxed().forEach(i -> stringBuilder.append(i).append(" * ").append(collected.get(i)));
+        stringBuilder.append(" ]");
+        return stringBuilder.toString();
+    }
 }

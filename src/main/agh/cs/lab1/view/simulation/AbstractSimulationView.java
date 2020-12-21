@@ -10,15 +10,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public abstract class AbstractSimulationView {
-    private static AbstractSimulationView instance;
     private final Stage defaultStage;
 
     public AbstractSimulationView(Stage defaultStage){
-        if (instance != null){
-            throw new IllegalStateException("There can only exist one simulation view");
-        }
         this.defaultStage = defaultStage;
-        instance = this;
     }
 
 
@@ -44,10 +39,6 @@ public abstract class AbstractSimulationView {
         stage.showAndWait();
 
         System.exit(1);
-    }
-
-    public static AbstractSimulationView getInstance(){
-        return instance;
     }
 
     public void pauseSimulation(){
