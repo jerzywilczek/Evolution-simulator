@@ -17,7 +17,7 @@ public class MapDrawer {
 
     private final Color groundColor = Color.rgb(179, 255, 153);
     private final Color grassColor = Color.rgb(0, 153, 0);
-    private final Color animalColor = Color.rgb(153, 51, 0);
+    private final Color animalColor = Color.rgb(255, 175, 0);
     private final Color highlightedColor = Color.rgb(255, 0, 255);
 
     public MapDrawer(WorldMap map, Canvas canvas) {
@@ -51,11 +51,17 @@ public class MapDrawer {
     }
 
     private void drawAnimals(GraphicsContext graphicsContext) {
-//        TODO: make different colors depending on animal energy
         graphicsContext.setFill(animalColor);
         map
                 .getStrongestAnimalsGroupedByFields()
-                .forEach(entry -> drawAnimal(graphicsContext, entry.getValue().get(0), animalColor));
+                .forEach(entry -> {
+                    Color paint = Color.rgb(
+                            (int)(255 * Math.abs((animalColor.getRed() * (Math.atan(entry.getValue().get(0).getEnergy())/(Math.PI/2))))),
+                            (int)(255 * Math.abs((animalColor.getGreen() * (Math.atan(entry.getValue().get(0).getEnergy())/(Math.PI/2))))),
+                            (int) (255 * Math.abs((animalColor.getBlue() * (Math.atan(entry.getValue().get(0).getEnergy())/(Math.PI/2)))))
+                    );
+                    drawAnimal(graphicsContext, entry.getValue().get(0), paint);
+                });
     }
 
     private void drawPlants(GraphicsContext graphicsContext) {
