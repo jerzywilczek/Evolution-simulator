@@ -12,7 +12,7 @@ public enum MapDirection {
     WEST(new Vector2d(-1, 0)),
     NORTHWEST(new Vector2d(-1, 1));
 
-    private final Vector2d UNIT_VECTOR;
+    private final Vector2d UNIT_VECTOR; // wielkie litery raczej stosujemy do pól public static final
 
     MapDirection(Vector2d unitVector) {
         this.UNIT_VECTOR = unitVector;

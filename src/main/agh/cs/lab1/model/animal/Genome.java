@@ -72,7 +72,7 @@ public class Genome {
      * @return rotation as an int (amount of 45 deg clockwise turns)
      */
     public int chooseRotation() {
-        return genes[new Random().nextInt(32)];
+        return genes[new Random().nextInt(32)]; // nowy obiekt co wywołanie
     }
 
     public static int compare(Genome a, Genome b){

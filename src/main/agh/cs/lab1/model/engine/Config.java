@@ -17,7 +17,7 @@ public class Config {
 
 
     private Config() {
-        width = -1;
+        width = -1; // czemu Pan ustawia te pola na nieprawidłowe wartości?
         height = -1;
         startEnergy = -1;
         moveEnergy = -1;

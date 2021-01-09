@@ -178,7 +178,7 @@ public class Animal {
     }
 
     public long getDeathTurn() {
-        return deathTurn;
+        return deathTurn;   // zwrócenie -1 tutaj jednak nie jest czytelne
     }
 
     public void die(long deathTurn) {

@@ -11,7 +11,7 @@ public class StatisticsPackage {
     public final Genome bestGenome, trackedGenome;
     public final double averageChildren, averageLifeExpectancy, averageEnergy;
 
-    public final String formattedAnimalAmount;
+    public final String formattedAnimalAmount;  // te pola mi zgrzytają
     public final String formattedPlantAmount;
     public final String formattedTrackedChildren;
     public final String formattedTrackedDescendants;
